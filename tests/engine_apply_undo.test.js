@@ -17,15 +17,17 @@ const applyFirstMatching = (state, predicate) => {
   return move;
 };
 
-const withUndo = (state) => ({
+const withUndo = (state, fen) => ({
   ...state,
   _undoStack: [],
   repetition: state.repetition || {},
+  fenHistory: [fen],
 });
 
 // Normal move
 {
-  const state = withUndo(parseFEN('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'));
+  const fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+  const state = withUndo(parseFEN(fen), fen);
   const fenStart = toFEN(state);
   applyFirstMatching(state, (move) => move.from.file === 4 && move.from.rank === 6 && move.to.rank === 4);
   undoMove(state);
@@ -34,7 +36,8 @@ const withUndo = (state) => ({
 
 // Castling
 {
-  const state = withUndo(parseFEN('r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1'));
+  const fen = 'r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1';
+  const state = withUndo(parseFEN(fen), fen);
   const fenStart = toFEN(state);
   const move = applyFirstMatching(state, (m) => m.isCastle && m.to.file === 6 && m.to.rank === 7);
   undoMove(state);
@@ -44,7 +47,8 @@ const withUndo = (state) => ({
 
 // En passant
 {
-  const state = withUndo(parseFEN('8/8/8/3pP3/8/8/8/8 w - d6 0 1'));
+  const fen = '8/8/8/3pP3/8/8/8/8 w - d6 0 1';
+  const state = withUndo(parseFEN(fen), fen);
   const fenStart = toFEN(state);
   applyFirstMatching(state, (m) => m.isEnPassant);
   undoMove(state);
@@ -53,7 +57,8 @@ const withUndo = (state) => ({
 
 // Promotion
 {
-  const state = withUndo(parseFEN('8/P7/8/8/8/8/8/8 w - - 0 1'));
+  const fen = '8/P7/8/8/8/8/8/8 w - - 0 1';
+  const state = withUndo(parseFEN(fen), fen);
   const fenStart = toFEN(state);
   applyFirstMatching(state, (m) => Boolean(m.promotion));
   undoMove(state);

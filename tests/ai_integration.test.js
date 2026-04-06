@@ -11,7 +11,15 @@ const assert = (condition, message) => {
   if (!condition) throw new Error(message || 'Assertion failed');
 };
 
-const state = parseFEN('r1bq1rk1/ppp2ppp/2n2n2/3pp3/3PP3/2P2N2/PP1N1PPP/R1BQ1RK1 w - - 0 6');
+const withState = (fen) => ({
+  ...parseFEN(fen),
+  _undoStack: [],
+  repetition: {},
+  fenHistory: [fen],
+});
+
+const fen = 'r1bq1rk1/ppp2ppp/2n2n2/3pp3/3PP3/2P2N2/PP1N1PPP/R1BQ1RK1 w - - 0 6';
+const state = withState(fen);
 const legalMoves = generateLegalMoves(state);
 const result = search({ state, options: DIFFICULTY_PRESETS.easy });
 assert(result.move, 'AI should return a move');
@@ -25,7 +33,7 @@ assert(
 );
 
 Object.values(DIFFICULTY_PRESETS).forEach((preset) => {
-  const testState = parseFEN('r1bq1rk1/ppp2ppp/2n2n2/3pp3/3PP3/2P2N2/PP1N1PPP/R1BQ1RK1 w - - 0 6');
+  const testState = withState(fen);
   const start = Date.now();
   search({ state: testState, options: preset });
   const elapsed = Date.now() - start;
