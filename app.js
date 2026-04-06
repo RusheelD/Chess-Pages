@@ -5,7 +5,7 @@ import { createThemeManager } from './ui/theme.js';
 import { DEFAULT_ORIENTATION } from './ui/types.js';
 import { DIFFICULTY_IDS } from './ai/types.js';
 import { createGameController } from './engine/game_controller.js';
-import { generateLegalMoves } from './engine/movegen.js';
+import { generateLegalMoves } from './engine/rules.js';
 
 const boardContainer = document.getElementById('board');
 const historyContainer = document.getElementById('history-list');

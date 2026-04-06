@@ -61,6 +61,7 @@ export function applyMove(state, move) {
     fullmove: state.fullmove,
     sideToMove: state.sideToMove,
     result: state.result,
+    repetition: { ...state.repetition },
   };
 
   const pieceType = getPieceType(move.piece);
@@ -148,6 +149,7 @@ export function undoMove(state) {
   state.fullmove = snapshot.fullmove;
   state.sideToMove = snapshot.sideToMove;
   state.result = snapshot.result;
+  state.repetition = snapshot.repetition;
   state.fenHistory.pop();
   return true;
 }
