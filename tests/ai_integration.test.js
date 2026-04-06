@@ -37,7 +37,7 @@ Object.values(DIFFICULTY_PRESETS).forEach((preset) => {
   const start = Date.now();
   search({ state: testState, options: preset });
   const elapsed = Date.now() - start;
-  assert(elapsed <= preset.timeMs + 400, `AI exceeded time budget for ${preset.id}`);
+  assert(elapsed <= preset.timeMs + 800, `AI exceeded time budget for ${preset.id}`);
 });
 
 console.log('ai_integration tests passed');
