@@ -25,7 +25,8 @@
   --space-7: 32px;
   --board-size: min(72vmin, 640px);
   --square-size: calc(var(--board-size) / 8);
-  --focus-ring: 0 0 0 3px rgba(53, 103, 214, 0.4);
+  --focus-ring-color: rgba(53, 103, 214, 0.4);
+  --focus-ring: 0 0 0 3px var(--focus-ring-color);
   --transition-base: 160ms ease;
   --board-light: #f1d9b5;
   --board-dark: #b58863;
@@ -52,6 +53,7 @@
   --color-border: #30384a;
   --color-accent: #7aa7ff;
   --color-accent-soft: rgba(122, 167, 255, 0.2);
+  --focus-ring-color: rgba(122, 167, 255, 0.55);
   --board-light: #2a3244;
   --board-dark: #1b2233;
   --board-border: #4b5365;
@@ -67,6 +69,7 @@
   --color-text-muted: #7a6f9a;
   --color-accent: #8b5cf6;
   --color-accent-soft: rgba(139, 92, 246, 0.18);
+  --focus-ring-color: rgba(139, 92, 246, 0.4);
   --board-light: #f5e9ff;
   --board-dark: #b8a5ff;
   --board-border: #5b4c9b;

@@ -100,6 +100,6 @@ export function createInitialState() {
     fenHistory: [INITIAL_FEN],
     repetition: { [INITIAL_FEN.split(' ').slice(0, 4).join(' ')]: 1 },
     result: null,
-    undoStack: [],
+    _undoStack: [],
   };
 }
