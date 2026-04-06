@@ -108,14 +108,15 @@ export function createGameController(aiEngine = null) {
     applyMoveInternal(result.move, true);
   }
 
+  controller.setMode = setMode;
+  controller.resetGame = resetGame;
+  controller.resign = resign;
+  controller.applyMove = applyMovePublic;
+  controller.undoMove = undoMovePublic;
+  controller.jumpToHistory = jumpToHistory;
+
   return {
     state,
     controller,
-    setMode,
-    resetGame,
-    resign,
-    applyMove: applyMovePublic,
-    undoMove: undoMovePublic,
-    jumpToHistory,
   };
 }
