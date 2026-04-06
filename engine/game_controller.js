@@ -119,9 +119,16 @@ export function createGameController(aiEngine = null) {
     state.halfmove = parsed.halfmove;
     state.fullmove = parsed.fullmove;
     controller.historyIndex = index;
+    controller.isThinking = false;
+    state.result = getGameResult(state);
+    controller.evalScore = evaluatePosition(state).score;
+
+    if (controller.mode === 'pass-and-play') {
+      controller.orientation = state.sideToMove;
+    }
+
     if (index === state.history.length) {
-      state.result = getGameResult(state);
-      controller.evalScore = evaluatePosition(state).score;
+      triggerAIMoveIfNeeded();
     }
   }
 
