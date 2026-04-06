@@ -95,7 +95,8 @@ const render = () => {
 
   boardView.render({ board: state.board, orientation: controller.orientation, highlights });
   historyView.render({ pgnMoves: state.sanHistory, currentIndex: controller.historyIndex });
-  evalBar.render({ score: controller.evalScore || 0 });
+  const evalScore = typeof controller.evalScore === 'number' ? controller.evalScore : 0;
+  evalBar.render({ score: evalScore });
   boardWrapper.classList.toggle('flipped', controller.orientation === 'b');
 
   const status = state.result?.status;
