@@ -10,6 +10,8 @@
   --color-accent: #3567d6;
   --color-accent-soft: rgba(53, 103, 214, 0.18);
   --color-danger: #d14343;
+  --color-on-accent: #fff;
+  --color-on-danger: #fff;
   --shadow-elev-1: 0 10px 24px rgba(28, 33, 48, 0.12);
   --radius-lg: 20px;
   --radius-md: 12px;
@@ -122,13 +124,13 @@ input:focus-visible {
 
 button.primary {
   background: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
   border-color: transparent;
 }
 
 button.danger {
   background: var(--color-danger);
-  color: #fff;
+  color: var(--color-on-danger);
   border-color: transparent;
 }
 
