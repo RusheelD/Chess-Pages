@@ -42,23 +42,30 @@ const isInteractionLocked = () => {
 
 const getOrientation = () => session.controller.orientation || DEFAULT_ORIENTATION;
 
+const getLegalMoves = () => generateLegalMoves?.(session.state) || [];
+
 const getLegalTargets = (square) => {
-  const moves = generateLegalMoves?.(session.state) || [];
-  return moves.filter((move) => move.from.file === square.file && move.from.rank === square.rank)
+  const moves = getLegalMoves();
+  return moves
+    .filter((move) => move.from.file === square.file && move.from.rank === square.rank)
     .map((move) => move.to);
+};
+
+const findLegalMove = (from, to) => {
+  const moves = getLegalMoves();
+  return moves.find((move) => move.from.file === from.file
+    && move.from.rank === from.rank
+    && move.to.file === to.file
+    && move.to.rank === to.rank) || null;
 };
 
 const boardView = createBoard({
   container: boardContainer,
-  onMoveAttempt: (from, to) => session.controller.applyMove({
-    from,
-    to,
-    piece: session.state.board[from.rank]?.[from.file] || null,
-    captured: session.state.board[to.rank]?.[to.file] || null,
-    promotion: null,
-    isCastle: false,
-    isEnPassant: false,
-  }),
+  onMoveAttempt: (from, to) => {
+    const move = findLegalMove(from, to);
+    if (!move) return false;
+    return session.controller.applyMove(move);
+  },
   getLegalTargets,
   canInteract: () => !isInteractionLocked(),
   getOrientation,
