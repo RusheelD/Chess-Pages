@@ -10,8 +10,7 @@ A lightweight chess web app built with vanilla ES modules for GitHub Pages.
 - Pass-and-play mode with automatic board flip.
 - Evaluation bar and theme selector (classic, dark, pastel).
 - Resign/reset controls and history navigation.
-
-> **Note:** AI play is wired for future integration. The current build does not include an AI engine, so singleplayer mode keeps the board oriented for White and does not auto-respond.
+- Singleplayer AI with difficulty presets and evaluation bar.
 
 ## Local Development
 
@@ -26,10 +25,14 @@ Then open `http://localhost:5173` in your browser.
 
 ## Tests
 
-Basic engine notation checks run with Node:
+Run the tests with Node:
 
 ```bash
 node tests/engine_notation.test.js
+node tests/engine_rules.test.js
+node tests/engine_apply_undo.test.js
+node tests/engine_controls.test.js
+node tests/ai_integration.test.js
 ```
 
 ## GitHub Pages Deployment
