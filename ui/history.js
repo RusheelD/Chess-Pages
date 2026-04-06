@@ -48,7 +48,7 @@ export function createHistoryView({ container, onSelect }) {
       container.appendChild(row);
     }
 
-    if (container.lastElementChild) {
+    if (container.lastElementChild && currentIndex >= totalMoves) {
       container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   };

@@ -5,7 +5,7 @@ import { createThemeManager } from './ui/theme.js';
 import { DEFAULT_ORIENTATION } from './ui/types.js';
 import { DIFFICULTY_IDS } from './ai/types.js';
 import { createGameController } from './engine/game_controller.js';
-import { generateLegalMoves } from './engine/rules.js';
+import { generateLegalMoves, isKingInCheck } from './engine/rules.js';
 
 const boardContainer = document.getElementById('board');
 const historyContainer = document.getElementById('history-list');
@@ -86,11 +86,25 @@ createThemeManager({ select: themeSelect });
 const render = () => {
   const { state, controller } = session;
   const lastMove = state.history[state.history.length - 1] || null;
+  const findKingSquare = () => {
+    const target = state.sideToMove === 'w' ? 'K' : 'k';
+    for (let rank = 0; rank < 8; rank += 1) {
+      for (let file = 0; file < 8; file += 1) {
+        if (state.board[rank][file] === target) {
+          return { file, rank };
+        }
+      }
+    }
+    return null;
+  };
+
+  const checkSquare = isKingInCheck(state, state.sideToMove) ? findKingSquare() : null;
+
   const highlights = {
     selected: null,
     legalTargets: [],
     lastMove: lastMove ? { from: lastMove.from, to: lastMove.to } : { from: null, to: null },
-    checkSquare: null,
+    checkSquare: checkSquare ? { file: checkSquare.file, rank: checkSquare.rank } : null,
   };
 
   boardView.render({ board: state.board, orientation: controller.orientation, highlights });
