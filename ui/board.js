@@ -138,6 +138,16 @@ export function createBoard({
     }
 
     updateSelection(square);
+    if (lastRenderPayload) {
+      render({
+        ...lastRenderPayload,
+        highlights: {
+          ...normalizeHighlights(lastRenderPayload.highlights),
+          selected,
+          legalTargets,
+        },
+      });
+    }
   });
 
   let dragSource = null;
@@ -150,6 +160,16 @@ export function createBoard({
     const orientation = getOrientation?.() || 'w';
     dragSource = mapDisplayToBoard(row, col, orientation);
     updateSelection(dragSource);
+    if (lastRenderPayload) {
+      render({
+        ...lastRenderPayload,
+        highlights: {
+          ...normalizeHighlights(lastRenderPayload.highlights),
+          selected: dragSource,
+          legalTargets,
+        },
+      });
+    }
   });
 
   container.addEventListener('pointerup', (event) => {
