@@ -9,19 +9,19 @@ export const DIFFICULTY_PRESETS = Object.freeze({
     id: DIFFICULTY_IDS.EASY,
     label: 'Easy',
     maxDepth: 2,
-    timeMs: 150,
+    timeMs: 250,
   },
   [DIFFICULTY_IDS.MEDIUM]: {
     id: DIFFICULTY_IDS.MEDIUM,
     label: 'Medium',
     maxDepth: 3,
-    timeMs: 250,
+    timeMs: 400,
   },
   [DIFFICULTY_IDS.HARD]: {
     id: DIFFICULTY_IDS.HARD,
     label: 'Hard',
     maxDepth: 4,
-    timeMs: 500,
+    timeMs: 700,
   },
 });
 
