@@ -72,6 +72,7 @@ export function createBoard({
   let selected = null;
   let legalTargets = [];
   let lastRenderOrientation = 'w';
+  let lastRenderPayload = null;
 
   container.innerHTML = '';
   for (let row = 0; row < 8; row += 1) {
@@ -115,6 +116,9 @@ export function createBoard({
       flashIllegal();
     }
     clearSelection();
+    if (lastRenderPayload) {
+      render(lastRenderPayload);
+    }
   };
 
   container.addEventListener('click', (event) => {
@@ -172,6 +176,7 @@ export function createBoard({
     if (!board) return;
     const currentHighlights = normalizeHighlights(highlights);
     lastRenderOrientation = orientation || lastRenderOrientation;
+    lastRenderPayload = { board, orientation: lastRenderOrientation, highlights };
 
     for (let row = 0; row < 8; row += 1) {
       for (let col = 0; col < 8; col += 1) {
