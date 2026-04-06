@@ -59,6 +59,6 @@ Difficulty presets map to search depth and time budget:
 
 - `engine/` — game state, FEN/PGN, move generation, rules, controller
 - `ui/` — board rendering, move history, eval bar, themes
-- `ai/` — AI contracts (engine implementation planned)
+- `ai/` — evaluation + search engine with difficulty presets
 - `tests/` — node-based engine tests
 - `index.html`, `app.js`, `styles.css` — static entrypoint and layout
