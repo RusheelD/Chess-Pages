@@ -193,6 +193,7 @@ export function createBoard({
         const squareEl = squares.get(`${row}-${col}`);
         const boardSquare = mapDisplayToBoard(row, col);
         const piece = board[boardSquare.rank]?.[boardSquare.file] ?? null;
+        // Coordinate labels stay anchored to the visual bottom/left edge after rotation.
         const isBottomRow = row === (lastRenderOrientation === 'b' ? 0 : 7);
         const isLeftColumn = col === (lastRenderOrientation === 'b' ? 7 : 0);
         const coordLabel = squareEl.querySelector('.coordinate');
