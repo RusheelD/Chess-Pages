@@ -12,6 +12,7 @@ const historyContainer = document.getElementById('history-list');
 const evalContainer = document.getElementById('eval-bar');
 const modeSelect = document.getElementById('mode-select');
 const difficultySelect = document.getElementById('difficulty-select');
+const aiSideSelect = document.getElementById('ai-side-select');
 const themeSelect = document.getElementById('theme-select');
 const resignButton = document.getElementById('resign-button');
 const resetButton = document.getElementById('reset-button');
@@ -40,7 +41,7 @@ const isInteractionLocked = () => {
   return false;
 };
 
-const getOrientation = () => session.controller.orientation || DEFAULT_ORIENTATION;
+const getOrientation = () => session.state.sideToMove || DEFAULT_ORIENTATION;
 
 const getLegalMoves = () => generateLegalMoves?.(session.state) || [];
 
@@ -107,11 +108,12 @@ const render = () => {
     checkSquare: checkSquare ? { file: checkSquare.file, rank: checkSquare.rank } : null,
   };
 
-  boardView.render({ board: state.board, orientation: controller.orientation, highlights });
+  const orientation = state.sideToMove || DEFAULT_ORIENTATION;
+  boardView.render({ board: state.board, orientation, highlights });
   historyView.render({ pgnMoves: state.sanHistory, currentIndex: controller.historyIndex });
   const evalScore = typeof controller.evalScore === 'number' ? controller.evalScore : 0;
   evalBar.render({ score: evalScore });
-  boardWrapper.classList.toggle('flipped', controller.orientation === 'b');
+  boardWrapper.classList.toggle('flipped', orientation === 'b');
 
   const status = state.result?.status;
   if (status && status !== 'active') {
@@ -158,12 +160,39 @@ const populateDifficulty = () => {
   });
 };
 
+const aiSideOptions = [
+  { id: 'white', label: 'White', value: 'w' },
+  { id: 'black', label: 'Black', value: 'b' },
+];
+
+const populateAiSide = () => {
+  if (!aiSideSelect) return;
+  aiSideSelect.innerHTML = '';
+  aiSideOptions.forEach((option) => {
+    const item = document.createElement('option');
+    item.value = option.value;
+    item.textContent = option.label;
+    aiSideSelect.appendChild(item);
+  });
+  aiSideSelect.value = session.controller.aiSide || aiSideOptions[0].value;
+};
+
 populateDifficulty();
+populateAiSide();
 
 difficultySelect.addEventListener('change', () => {
   if (typeof session.controller.setDifficulty === 'function') {
     session.controller.setDifficulty(difficultySelect.value);
   }
 });
+
+if (aiSideSelect) {
+  aiSideSelect.addEventListener('change', () => {
+    if (typeof session.controller.setAiSide === 'function') {
+      session.controller.setAiSide(aiSideSelect.value);
+    }
+    render();
+  });
+}
 
 render();

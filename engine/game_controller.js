@@ -94,9 +94,7 @@ export function createGameController(aiEngine = null) {
     controller.evalScore = evaluatePosition(state).score;
     if (state.result.status !== 'active') return true;
 
-    if (controller.mode === 'pass-and-play') {
-      controller.orientation = state.sideToMove;
-    }
+    controller.orientation = state.sideToMove;
 
     if (!skipAI) {
       triggerAIMoveIfNeeded();
@@ -135,9 +133,7 @@ export function createGameController(aiEngine = null) {
     state.result = getGameResult(state);
     controller.evalScore = evaluatePosition(state).score;
 
-    if (controller.mode === 'pass-and-play') {
-      controller.orientation = state.sideToMove;
-    }
+    controller.orientation = state.sideToMove;
 
     if (index === state.history.length) {
       triggerAIMoveIfNeeded();
@@ -148,6 +144,7 @@ export function createGameController(aiEngine = null) {
     if (!aiDriver || controller.mode !== 'singleplayer') return;
     if (state.result && state.result.status !== 'active') return;
     if (controller.historyIndex < state.history.length) return;
+    if (state.sideToMove !== controller.aiSide) return;
     const preset = getDifficultyPreset(controller.difficulty);
     controller.isThinking = true;
     const result = aiDriver.search({ state, options: preset, difficulty: preset.id });
@@ -159,6 +156,8 @@ export function createGameController(aiEngine = null) {
 
   controller.setMode = setMode;
   controller.setDifficulty = setDifficulty;
+  controller.setAiSide = setAiSide;
+  controller.setOrientation = setOrientation;
   controller.resetGame = resetGame;
   controller.resign = resign;
   controller.applyMove = applyMovePublic;
