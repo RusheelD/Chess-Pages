@@ -40,3 +40,19 @@
 - **Sprite mapping**
   1. Verify initial setup: rooks in corners, knights next to rooks, bishops next to knights.
   2. **Expect:** rooks, knights, bishops all visually distinct and correct.
+
+## Mobile layout
+
+- **Eval bar orientation (mobile)**
+  1. Resize viewport to mobile width (≤640px).
+  2. **Expect:** eval bar is horizontal (fills left-to-right) and does not overflow.
+
+- **Board sizing (mobile)**
+  1. Keep viewport at mobile width.
+  2. **Expect:** board squares/pieces are smaller than desktop, with no horizontal scrolling.
+
+## Favicon
+
+- **Browser icon**
+  1. Reload the page (desktop or mobile).
+  2. **Expect:** tab favicon displays a chess piece icon (from the sprite sheet), no console errors.

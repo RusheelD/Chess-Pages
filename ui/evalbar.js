@@ -14,7 +14,7 @@ export function createEvalBar({ container }) {
   const render = ({ score }) => {
     const normalized = clamp((score || 0) / 10, -1, 1);
     const percentage = ((normalized + 1) / 2) * 100;
-    fill.style.height = `${percentage}%`;
+    fill.style.setProperty('--eval-percent', `${percentage}%`);
   };
 
   return { render };

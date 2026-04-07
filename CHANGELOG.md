@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added a sprite-based favicon that renders a chess piece in the browser tab.
+- Improved mobile layout with a horizontal eval bar and smaller board/piece sizing.
 - Fixed click-to-move handling so simple clicks no longer trigger drag-only illegal feedback.
 - Corrected board rank rendering so the bottom row matches the current orientation.
 - Aligned rook/knight/bishop sprite mapping with the piece sheet layout.

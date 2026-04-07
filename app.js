@@ -10,6 +10,45 @@ import { generateLegalMoves, isKingInCheck } from './engine/rules.js';
 const boardContainer = document.getElementById('board');
 const historyContainer = document.getElementById('history-list');
 const evalContainer = document.getElementById('eval-bar');
+
+// Generate a favicon from the sprite sheet so we don't ship a separate icon asset.
+const setFaviconFromSprite = () => {
+  const sprite = new Image();
+  sprite.src = 'assets/pieces-sprite.png';
+  sprite.onload = () => {
+    const cols = 6;
+    const rows = 2;
+    const pieceWidth = sprite.naturalWidth / cols;
+    const pieceHeight = sprite.naturalHeight / rows;
+    const canvas = document.createElement('canvas');
+    const size = 64;
+    canvas.width = size;
+    canvas.height = size;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    const columnIndex = 3;
+    const rowIndex = 0;
+    context.imageSmoothingEnabled = true;
+    context.clearRect(0, 0, size, size);
+    context.drawImage(
+      sprite,
+      columnIndex * pieceWidth,
+      rowIndex * pieceHeight,
+      pieceWidth,
+      pieceHeight,
+      0,
+      0,
+      size,
+      size,
+    );
+    const link = document.querySelector('link[rel="icon"]') || document.createElement('link');
+    link.rel = 'icon';
+    link.href = canvas.toDataURL('image/png');
+    if (!link.parentNode) {
+      document.head.appendChild(link);
+    }
+  };
+};
 const modeSelect = document.getElementById('mode-select');
 const difficultySelect = document.getElementById('difficulty-select');
 const aiSideSelect = document.getElementById('ai-side-select');
@@ -182,6 +221,7 @@ const populateAiSide = () => {
 
 populateDifficulty();
 populateAiSide();
+setFaviconFromSprite();
 
 difficultySelect.addEventListener('change', () => {
   if (typeof session.controller.setDifficulty === 'function') {
