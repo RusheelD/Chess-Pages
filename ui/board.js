@@ -117,14 +117,12 @@ export function createBoard({
     }
     if (success) {
       clearSelection();
+      return;
     }
     if (lastRenderPayload) {
-      const updatedHighlights = success
-        ? { ...normalizeHighlights(lastRenderPayload.highlights), selected: null, legalTargets: [] }
-        : lastRenderPayload.highlights;
       render({
         ...lastRenderPayload,
-        highlights: updatedHighlights,
+        highlights: lastRenderPayload.highlights,
       });
     }
   };

@@ -115,6 +115,7 @@ export function createGameController(aiEngine = null) {
     controller.historyIndex = state.fenHistory.length - 1;
     state.result = getGameResult(state);
     controller.evalScore = evaluatePosition(state).score;
+    controller.orientation = state.sideToMove;
     return true;
   }
 
