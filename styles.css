@@ -105,6 +105,7 @@ body {
   transform: rotate(180deg);
 }
 
+
 .board {
   width: min(70vmin, var(--board-max));
   height: min(70vmin, var(--board-max));
@@ -193,6 +194,7 @@ body {
 .board-wrapper.flipped .coordinate {
   transform: rotate(180deg);
 }
+
 
 .coordinate {
   position: absolute;

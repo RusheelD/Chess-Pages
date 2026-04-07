@@ -40,19 +40,7 @@ const normalizeHighlights = (highlights) => ({
 
 const createSquareIndex = (file, rank) => ({ file, rank });
 
-const mapDisplayToBoard = (row, col, orientation) => {
-  if (orientation === 'b') {
-    return createSquareIndex(7 - col, row);
-  }
-  return createSquareIndex(col, 7 - row);
-};
-
-const mapBoardToDisplay = (square, orientation) => {
-  if (orientation === 'b') {
-    return { row: square.rank, col: 7 - square.file };
-  }
-  return { row: 7 - square.rank, col: square.file };
-};
+const mapDisplayToBoard = (row, col) => createSquareIndex(col, 7 - row);
 
 const squareEquals = (a, b) => a && b && a.file === b.file && a.rank === b.rank;
 
@@ -61,7 +49,6 @@ export function createBoard({
   onMoveAttempt,
   getLegalTargets,
   canInteract,
-  getOrientation,
 }) {
   if (!container) {
     throw new Error('Board container required');
@@ -132,8 +119,7 @@ export function createBoard({
     if (!target || !canInteract?.()) return;
     const row = Number(target.dataset.row);
     const col = Number(target.dataset.col);
-    const orientation = getOrientation?.() || 'w';
-    const square = mapDisplayToBoard(row, col, orientation);
+    const square = mapDisplayToBoard(row, col);
 
     if (selected) {
       const isLegal = legalTargets.some((move) => squareEquals(move, square));
@@ -163,8 +149,7 @@ export function createBoard({
     if (!target || !canInteract?.()) return;
     const row = Number(target.dataset.row);
     const col = Number(target.dataset.col);
-    const orientation = getOrientation?.() || 'w';
-    dragSource = mapDisplayToBoard(row, col, orientation);
+    dragSource = mapDisplayToBoard(row, col);
     updateSelection(dragSource);
     if (lastRenderPayload) {
       render({
@@ -187,8 +172,7 @@ export function createBoard({
     }
     const row = Number(target.dataset.row);
     const col = Number(target.dataset.col);
-    const orientation = getOrientation?.() || 'w';
-    const destination = mapDisplayToBoard(row, col, orientation);
+    const destination = mapDisplayToBoard(row, col);
 
     if (legalTargets.some((move) => squareEquals(move, destination))) {
       attemptMove(dragSource, destination);
@@ -207,19 +191,20 @@ export function createBoard({
     for (let row = 0; row < 8; row += 1) {
       for (let col = 0; col < 8; col += 1) {
         const squareEl = squares.get(`${row}-${col}`);
-        const boardSquare = mapDisplayToBoard(row, col, lastRenderOrientation);
+        const boardSquare = mapDisplayToBoard(row, col);
         const piece = board[boardSquare.rank]?.[boardSquare.file] ?? null;
-        const display = mapBoardToDisplay(boardSquare, lastRenderOrientation);
-        const isBottomRow = display.row === 7;
-        const isLeftColumn = display.col === 0;
+        const isBottomRow = row === 7;
+        const isLeftColumn = col === 0;
         const coordLabel = squareEl.querySelector('.coordinate');
+        const rankLabel = lastRenderOrientation === 'b' ? 8 - row : row + 1;
+        const fileLabel = lastRenderOrientation === 'b' ? FILES[7 - col] : FILES[col];
 
         if (isBottomRow) {
           coordLabel.classList.add('file');
-          coordLabel.textContent = FILES[boardSquare.file];
+          coordLabel.textContent = fileLabel;
         } else if (isLeftColumn) {
           coordLabel.classList.add('rank');
-          coordLabel.textContent = String(boardSquare.rank + 1);
+          coordLabel.textContent = String(rankLabel);
         } else {
           coordLabel.className = 'coordinate';
           coordLabel.textContent = '';

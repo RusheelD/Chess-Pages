@@ -18,6 +18,7 @@ const resignButton = document.getElementById('resign-button');
 const resetButton = document.getElementById('reset-button');
 const returnButton = document.getElementById('return-button');
 const statusText = document.getElementById('status-text');
+const boardWrapper = document.querySelector('.board-wrapper');
 
 const session = createGameController();
 
@@ -72,7 +73,6 @@ const boardView = createBoard({
   },
   getLegalTargets,
   canInteract: () => !isInteractionLocked(),
-  getOrientation,
 });
 
 const historyView = createHistoryView({
@@ -116,6 +116,7 @@ const render = () => {
   historyView.render({ pgnMoves: state.sanHistory, currentIndex: controller.historyIndex });
   const evalScore = typeof controller.evalScore === 'number' ? controller.evalScore : 0;
   evalBar.render({ score: evalScore });
+  boardWrapper.classList.toggle('flipped', orientation === 'b');
 
   const status = state.result?.status;
   if (status && status !== 'active') {
