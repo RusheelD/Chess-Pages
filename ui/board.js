@@ -4,19 +4,19 @@
 /** @typedef {import('./types.js').BoardHighlights} BoardHighlights */
 
 const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-const PIECE_UNICODE = {
-  P: '♙',
-  N: '♘',
-  B: '♗',
-  R: '♖',
-  Q: '♕',
-  K: '♔',
-  p: '♟︎',
-  n: '♞',
-  b: '♝',
-  r: '♜',
-  q: '♛',
-  k: '♚',
+const PIECE_CLASS = {
+  P: 'white-pawn',
+  N: 'white-knight',
+  B: 'white-bishop',
+  R: 'white-rook',
+  Q: 'white-queen',
+  K: 'white-king',
+  p: 'black-pawn',
+  n: 'black-knight',
+  b: 'black-bishop',
+  r: 'black-rook',
+  q: 'black-queen',
+  k: 'black-king',
 };
 
 const EMPTY_HIGHLIGHTS = Object.freeze({
@@ -115,9 +115,15 @@ export function createBoard({
     if (!success) {
       flashIllegal();
     }
-    clearSelection();
+    if (success) {
+      clearSelection();
+      return;
+    }
     if (lastRenderPayload) {
-      render(lastRenderPayload);
+      render({
+        ...lastRenderPayload,
+        highlights: lastRenderPayload.highlights,
+      });
     }
   };
 
@@ -223,8 +229,8 @@ export function createBoard({
         squareEl.appendChild(coordLabel);
         if (piece) {
           const span = document.createElement('span');
-          span.className = 'piece';
-          span.textContent = PIECE_UNICODE[piece] || '';
+          span.className = `piece ${PIECE_CLASS[piece] || ''}`.trim();
+          span.setAttribute('aria-hidden', 'true');
           squareEl.appendChild(span);
         }
 

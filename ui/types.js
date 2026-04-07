@@ -19,6 +19,15 @@
  *  currentIndex: number
  * }} HistoryViewModel */
 
+/** @typedef {
+ *  'white'|'black'
+ * } AiSideOptionId */
+
+/** @typedef {{
+ *  value: import('../engine/types.js').Color,
+ *  label: string
+ * }} AiSideOption */
+
 /** @typedef {{
  *  score: number,
  *  displayScore: number

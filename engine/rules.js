@@ -99,6 +99,7 @@ export function generateLegalMoves(state) {
   const pseudoMoves = generatePseudoLegalMoves(state);
   const legalMoves = [];
   for (const move of pseudoMoves) {
+    if (move.captured && getPieceType(move.captured) === PIECE_TYPES.KING) continue;
     if (move.isCastle && isCastleThroughCheck(state, move)) continue;
     applyMove(state, move);
     const inCheck = isKingInCheck(state, state.sideToMove === COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE);
