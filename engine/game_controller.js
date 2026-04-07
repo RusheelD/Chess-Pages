@@ -17,6 +17,7 @@ export function createGameController(aiEngine = null) {
   const controller = {
     mode: 'pass-and-play',
     orientation: COLORS.WHITE,
+    aiSide: COLORS.BLACK,
     isThinking: false,
     historyIndex: state.fenHistory.length - 1,
     difficulty: DEFAULT_DIFFICULTY,
@@ -36,6 +37,17 @@ export function createGameController(aiEngine = null) {
 
   function setDifficulty(difficulty) {
     controller.difficulty = difficulty;
+  }
+
+  function setAiSide(side) {
+    controller.aiSide = side;
+    if (controller.mode === 'singleplayer') {
+      triggerAIMoveIfNeeded();
+    }
+  }
+
+  function setOrientation(side) {
+    controller.orientation = side;
   }
 
   function resetGame() {
