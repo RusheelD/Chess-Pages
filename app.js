@@ -65,7 +65,11 @@ const boardView = createBoard({
   onMoveAttempt: (from, to) => {
     const move = findLegalMove(from, to);
     if (!move) return false;
-    return session.controller.applyMove(move);
+    const success = session.controller.applyMove(move);
+    if (success) {
+      render();
+    }
+    return success;
   },
   getLegalTargets,
   canInteract: () => !isInteractionLocked(),
