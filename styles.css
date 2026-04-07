@@ -74,6 +74,7 @@ body {
   border: 2px solid #000;
   position: relative;
   box-shadow: var(--shadow-sm);
+  --eval-percent: 50%;
 }
 
 .eval-bar .eval-fill {
@@ -81,6 +82,7 @@ body {
   left: 0;
   bottom: 0;
   width: 100%;
+  height: var(--eval-percent);
   background: linear-gradient(180deg, #f5f5f5 0%, #d5d5d5 100%);
   transition: height 200ms ease;
 }
@@ -346,21 +348,60 @@ button:disabled {
 
 @media (max-width: 640px) {
   .app {
-    padding: 16px;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .evalbar {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .eval-bar {
+    width: 100%;
+    height: 18px;
+    border-radius: 999px;
+  }
+
+  .eval-bar .eval-fill {
+    height: 100%;
+    width: var(--eval-percent);
+    bottom: auto;
+    left: 0;
+    background: linear-gradient(90deg, #f5f5f5 0%, #d5d5d5 100%);
+    transition: width 200ms ease;
+  }
+
+  .board-wrapper {
+    padding: 10px;
   }
 
   .controls {
     padding: 12px;
+    gap: 8px;
+  }
+
+  .control-row {
+    gap: 8px;
   }
 
   .board {
-    width: min(92vmin, 460px);
-    height: min(92vmin, 460px);
+    width: min(92vmin, 420px);
+    height: min(92vmin, 420px);
+  }
+
+  .square {
+    font-size: clamp(18px, 4vmin, 34px);
   }
 
   .piece {
-    width: min(12vmin, 54px);
-    height: min(12vmin, 54px);
+    width: min(10vmin, 46px);
+    height: min(10vmin, 46px);
+  }
+
+  .history {
+    padding: 10px;
+    max-height: 200px;
   }
 }
 
