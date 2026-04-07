@@ -41,7 +41,7 @@ const isInteractionLocked = () => {
   return false;
 };
 
-const getOrientation = () => session.state.sideToMove || DEFAULT_ORIENTATION;
+const getOrientation = () => session.controller.orientation || DEFAULT_ORIENTATION;
 
 const getLegalMoves = () => generateLegalMoves?.(session.state) || [];
 
@@ -111,7 +111,7 @@ const render = () => {
     checkSquare: checkSquare ? { file: checkSquare.file, rank: checkSquare.rank } : null,
   };
 
-    const orientation = state.sideToMove || DEFAULT_ORIENTATION;
+    const orientation = getOrientation();
   boardView.render({ board: state.board, orientation, highlights });
   historyView.render({ pgnMoves: state.sanHistory, currentIndex: controller.historyIndex });
   const evalScore = typeof controller.evalScore === 'number' ? controller.evalScore : 0;

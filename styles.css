@@ -178,16 +178,16 @@ body {
 
 .piece.white-king { background-position: 0% 0%; }
 .piece.white-queen { background-position: 20% 0%; }
+.piece.white-rook { background-position: 80% 0%; }
 .piece.white-bishop { background-position: 40% 0%; }
 .piece.white-knight { background-position: 60% 0%; }
-.piece.white-rook { background-position: 80% 0%; }
 .piece.white-pawn { background-position: 100% 0%; }
 
 .piece.black-king { background-position: 0% 100%; }
 .piece.black-queen { background-position: 20% 100%; }
+.piece.black-rook { background-position: 80% 100%; }
 .piece.black-bishop { background-position: 40% 100%; }
 .piece.black-knight { background-position: 60% 100%; }
-.piece.black-rook { background-position: 80% 100%; }
 .piece.black-pawn { background-position: 100% 100%; }
 
 .board-wrapper.flipped .piece,
