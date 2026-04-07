@@ -40,6 +40,7 @@ const normalizeHighlights = (highlights) => ({
 
 const createSquareIndex = (file, rank) => ({ file, rank });
 
+// Display rows are rendered bottom-to-top, so row index maps directly to board rank.
 const mapDisplayToBoard = (row, col) => createSquareIndex(col, row);
 
 const squareEquals = (a, b) => a && b && a.file === b.file && a.rank === b.rank;
