@@ -9,6 +9,7 @@ A lightweight chess web app built with vanilla ES modules for GitHub Pages.
 - Click-to-move and drag-and-drop input with legal-move highlights.
 - Auto-orienting board that follows the side to move (white starts at bottom) with flipped rank/file labels.
 - Evaluation bar and theme selector (classic, dark, pastel).
+- Mobile-friendly layout with a horizontal eval bar on small screens.
 - Resign/reset controls and history navigation.
 - Singleplayer AI with difficulty presets (easy/medium/hard) and an AI side selector.
 - Sprite-based piece rendering.
@@ -41,7 +42,7 @@ For manual UI regression checks (click/drag input, orientation, piece sprites), 
 
 ## Assets
 
-Piece art is delivered via a sprite sheet at `assets/pieces-sprite.png`. If you replace the artwork, keep the 6×2 grid layout (six columns for each piece type, two rows for white/black) so the CSS background positions remain valid.
+Piece art is delivered via a sprite sheet at `assets/pieces-sprite.png`. If you replace the artwork, keep the 6×2 grid layout (six columns for each piece type, two rows for white/black) so the CSS background positions remain valid. The app also uses the sprite sheet to generate the browser favicon at runtime.
 
 ## GitHub Pages Deployment
 

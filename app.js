@@ -11,6 +11,7 @@ const boardContainer = document.getElementById('board');
 const historyContainer = document.getElementById('history-list');
 const evalContainer = document.getElementById('eval-bar');
 
+// Generate a favicon from the sprite sheet so we don't ship a separate icon asset.
 const setFaviconFromSprite = () => {
   const sprite = new Image();
   sprite.src = 'assets/pieces-sprite.png';
