@@ -116,6 +116,7 @@ export function createBoard({
 
   let dragSource = null;
   let isDragging = false;
+  let suppressClick = false;
   let dragPointerId = null;
   let dragStart = null;
 
@@ -138,6 +139,7 @@ export function createBoard({
     const deltaY = Math.abs(event.clientY - dragStart.y);
     if (isDragging || deltaX + deltaY < 6) return;
     isDragging = true;
+    suppressClick = true;
     updateSelection(dragSource);
     if (lastRenderPayload) {
       render({
@@ -181,7 +183,10 @@ export function createBoard({
   });
 
   container.addEventListener('click', (event) => {
-    if (isDragging) return;
+    if (suppressClick) {
+      suppressClick = false;
+      return;
+    }
     const target = event.target.closest('.square');
     if (!target || !canInteract?.()) return;
     const row = Number(target.dataset.row);
