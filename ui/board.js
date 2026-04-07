@@ -40,7 +40,8 @@ const normalizeHighlights = (highlights) => ({
 
 const createSquareIndex = (file, rank) => ({ file, rank });
 
-const mapDisplayToBoard = (row, col) => createSquareIndex(col, 7 - row);
+// Display rows are rendered bottom-to-top, so row index maps directly to board rank.
+const mapDisplayToBoard = (row, col) => createSquareIndex(col, row);
 
 const squareEquals = (a, b) => a && b && a.file === b.file && a.rank === b.rank;
 
@@ -114,42 +115,32 @@ export function createBoard({
     }
   };
 
-  container.addEventListener('click', (event) => {
-    const target = event.target.closest('.square');
-    if (!target || !canInteract?.()) return;
-    const row = Number(target.dataset.row);
-    const col = Number(target.dataset.col);
-    const square = mapDisplayToBoard(row, col);
-
-    if (selected) {
-      const isLegal = legalTargets.some((move) => squareEquals(move, square));
-      if (isLegal) {
-        attemptMove(selected, square);
-        return;
-      }
-    }
-
-    updateSelection(square);
-    if (lastRenderPayload) {
-      render({
-        ...lastRenderPayload,
-        highlights: {
-          ...normalizeHighlights(lastRenderPayload.highlights),
-          selected,
-          legalTargets,
-        },
-      });
-    }
-  });
-
   let dragSource = null;
+  let isDragging = false;
+  let suppressClick = false;
+  let dragPointerId = null;
+  let dragStart = null;
 
   container.addEventListener('pointerdown', (event) => {
     const target = event.target.closest('.square');
     if (!target || !canInteract?.()) return;
+    if (event.button !== undefined && event.button !== 0) return;
     const row = Number(target.dataset.row);
     const col = Number(target.dataset.col);
     dragSource = mapDisplayToBoard(row, col);
+    dragPointerId = event.pointerId;
+    dragStart = { x: event.clientX, y: event.clientY };
+    isDragging = false;
+  });
+
+  container.addEventListener('pointermove', (event) => {
+    if (!dragSource || dragPointerId !== event.pointerId) return;
+    if (!dragStart) return;
+    const deltaX = Math.abs(event.clientX - dragStart.x);
+    const deltaY = Math.abs(event.clientY - dragStart.y);
+    if (isDragging || deltaX + deltaY < 6) return;
+    isDragging = true;
+    suppressClick = true;
     updateSelection(dragSource);
     if (lastRenderPayload) {
       render({
@@ -165,21 +156,63 @@ export function createBoard({
 
   container.addEventListener('pointerup', (event) => {
     if (!dragSource || !canInteract?.()) return;
+    if (dragPointerId !== event.pointerId) return;
     const target = event.target.closest('.square');
     if (!target) {
       dragSource = null;
+      dragPointerId = null;
+      dragStart = null;
+      isDragging = false;
       return;
     }
     const row = Number(target.dataset.row);
     const col = Number(target.dataset.col);
     const destination = mapDisplayToBoard(row, col);
 
-    if (legalTargets.some((move) => squareEquals(move, destination))) {
-      attemptMove(dragSource, destination);
-    } else {
-      flashIllegal();
+    if (isDragging) {
+      if (legalTargets.some((move) => squareEquals(move, destination))) {
+        attemptMove(dragSource, destination);
+      } else {
+        flashIllegal();
+      }
     }
+
     dragSource = null;
+    dragPointerId = null;
+    dragStart = null;
+    isDragging = false;
+  });
+
+  container.addEventListener('click', (event) => {
+    if (suppressClick) {
+      suppressClick = false;
+      return;
+    }
+    const target = event.target.closest('.square');
+    if (!target || !canInteract?.()) return;
+    const row = Number(target.dataset.row);
+    const col = Number(target.dataset.col);
+    const square = mapDisplayToBoard(row, col);
+
+    if (selected) {
+      const isLegal = legalTargets.some((move) => squareEquals(move, square));
+      if (isLegal) {
+        attemptMove(selected, square);
+        return;
+      }
+    }
+
+    updateSelection(squareEquals(selected, square) ? null : square);
+    if (lastRenderPayload) {
+      render({
+        ...lastRenderPayload,
+        highlights: {
+          ...normalizeHighlights(lastRenderPayload.highlights),
+          selected,
+          legalTargets,
+        },
+      });
+    }
   });
 
   const render = ({ board, orientation, highlights }) => {
@@ -197,7 +230,7 @@ export function createBoard({
         const isBottomRow = row === (lastRenderOrientation === 'b' ? 0 : 7);
         const isLeftColumn = col === (lastRenderOrientation === 'b' ? 7 : 0);
         const coordLabel = squareEl.querySelector('.coordinate');
-        const rankLabel = boardSquare.rank + 1;
+        const rankLabel = 8 - boardSquare.rank;
         const fileLabel = FILES[boardSquare.file];
 
         coordLabel.className = 'coordinate';

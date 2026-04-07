@@ -37,6 +37,8 @@ node tests/ai_eval.test.js
 node tests/ai_integration.test.js
 ```
 
+For manual UI regression checks (click/drag input, orientation, piece sprites), see `tests/ui_manual.md`.
+
 ## Assets
 
 Piece art is delivered via a sprite sheet at `assets/pieces-sprite.png`. If you replace the artwork, keep the 6×2 grid layout (six columns for each piece type, two rows for white/black) so the CSS background positions remain valid.
