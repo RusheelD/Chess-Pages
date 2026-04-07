@@ -193,12 +193,13 @@ export function createBoard({
         const squareEl = squares.get(`${row}-${col}`);
         const boardSquare = mapDisplayToBoard(row, col);
         const piece = board[boardSquare.rank]?.[boardSquare.file] ?? null;
-        const isBottomRow = row === 7;
-        const isLeftColumn = col === 0;
+        const isBottomRow = row === (lastRenderOrientation === 'b' ? 0 : 7);
+        const isLeftColumn = col === (lastRenderOrientation === 'b' ? 7 : 0);
         const coordLabel = squareEl.querySelector('.coordinate');
-        const rankLabel = lastRenderOrientation === 'b' ? 8 - row : row + 1;
-        const fileLabel = lastRenderOrientation === 'b' ? FILES[7 - col] : FILES[col];
+        const rankLabel = boardSquare.rank + 1;
+        const fileLabel = FILES[boardSquare.file];
 
+        coordLabel.className = 'coordinate';
         if (isBottomRow) {
           coordLabel.classList.add('file');
           coordLabel.textContent = fileLabel;
@@ -206,7 +207,6 @@ export function createBoard({
           coordLabel.classList.add('rank');
           coordLabel.textContent = String(rankLabel);
         } else {
-          coordLabel.className = 'coordinate';
           coordLabel.textContent = '';
         }
 
