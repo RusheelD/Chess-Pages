@@ -73,7 +73,6 @@ const boardView = createBoard({
   },
   getLegalTargets,
   canInteract: () => !isInteractionLocked(),
-  getOrientation,
 });
 
 const historyView = createHistoryView({
@@ -112,7 +111,7 @@ const render = () => {
     checkSquare: checkSquare ? { file: checkSquare.file, rank: checkSquare.rank } : null,
   };
 
-  const orientation = state.sideToMove || DEFAULT_ORIENTATION;
+    const orientation = state.sideToMove || DEFAULT_ORIENTATION;
   boardView.render({ board: state.board, orientation, highlights });
   historyView.render({ pgnMoves: state.sanHistory, currentIndex: controller.historyIndex });
   const evalScore = typeof controller.evalScore === 'number' ? controller.evalScore : 0;
