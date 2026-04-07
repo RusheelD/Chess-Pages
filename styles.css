@@ -171,6 +171,7 @@ body {
   background-image: url('assets/pieces-sprite.png');
   background-repeat: no-repeat;
   background-size: 600% 200%;
+  image-rendering: crisp-edges;
   transition: transform 150ms ease;
 }
 
