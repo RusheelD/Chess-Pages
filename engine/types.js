@@ -53,6 +53,7 @@
 /** @typedef {{
  *  mode: GameMode,
  *  orientation: Color,
+ *  aiSide: Color,
  *  isThinking: boolean,
  *  historyIndex: number
  * }} GameControllerState */
@@ -64,6 +65,9 @@
 
 /** @typedef {{
  *  setMode: (mode: GameMode) => void,
+ *  setDifficulty: (difficulty: import('../ai/types.js').DifficultyId) => void,
+ *  setAiSide: (side: Color) => void,
+ *  setOrientation: (side: Color) => void,
  *  resetGame: () => void,
  *  resign: (side: Color) => void,
  *  applyMove: (move: Move) => boolean,
